@@ -6,20 +6,16 @@
 /*   By: khansman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/16 15:11:25 by khansman          #+#    #+#             */
-/*   Updated: 2016/07/16 15:11:26 by khansman         ###   ########.fr       */
+/*   Updated: 2016/08/28 14:08:46 by reyvan-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+#include <pthread.h>
 
 int		ft_draw(t_env *env)
 {
 	mlx_put_image_to_window(env->mlx, env->win, env->img->img, 0, -1);
-	if (env->clear_img)
-	{
-		free(env->img);
-		env->img = ft_new_img(env->mlx, WIN_WIDTH, WIN_HEIGHT);
-	}
 	return (0);
 }
 
@@ -37,6 +33,8 @@ int		button_pess(int button, int x, int y, t_env *env)
 
 void	init_env(t_env *env, int ac, char **av)
 {
+	pthread_t	rt_thread;
+	
 	if (ac < 2)
 		ft_exit(7);
 	env->ac = ac;
@@ -50,7 +48,11 @@ void	init_env(t_env *env, int ac, char **av)
 	env->pos.z = -5;
 	env->screen = ft_memalloc(sizeof(t_obj));
 	init_tab_obj(env, av[1]);
-	raytracer(env);
+	if (pthread_create(&rt_thread, NULL, raytracer, (void *)env))
+		write(1, "Error creating thread\n", 22);
+	if (pthread_join(rt_thread, NULL))
+		write(1, "Error joining thread\n", 21);
+	//raytracer(env);
 }
 
 int		main(int ac, char **av)
