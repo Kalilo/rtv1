@@ -18,7 +18,7 @@ t_img	*ft_load_img(void *mlx, char *src)
 
 	if (!src || !(i = (t_img*)malloc(sizeof(t_img))))
 		return (NULL);
-	if (!(i->img = mlx_xpm_file_to_image(mlx, src, &(i->width), *(i->height))))
+	if (!(i->img = mlx_xpm_file_to_image(mlx, src, &(i->width), &(i->height))))
 		return (NULL);
 	i->data = mlx_get_data_addr(i->img, &(i->bpp), &(i->sizeline),
 			&(i->endian));

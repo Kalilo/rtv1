@@ -13,23 +13,41 @@ OBJDIR = obj/
 
 HEADERDIR = .
 
-SRCS = main.c				\
-	   raytracer.c			\
-	   load_tab_obj.c		\
-	   obj_sphere_plane.c	\
-	   obj_cyl_cone.c		\
-	   obj_tri_circ.c		\
-	   colour_phong.c		\
-	   input.c				\
-	   ft_ahextoi.c			\
-	   exit.c				\
-	   validate_map.c		\
-	   camera.c				\
-	   v3d_calc.c			\
-	   v3d_calc2.c			\
-	   v3d_calc3.c			\
-	   ft_image.c			\
-	   ft_convert_base.c	\
+SRCS =		add.c						\
+			obj_tri_circ.c				\
+			camera.c					\
+			ft_load_img.c				\
+			raytracer.c					\
+			clamp.c						\
+			ft_new_img.c				\
+			saturate.c					\
+			clamp_vec.c					\
+			ft_pixel_put_to_image.c		\
+			saturate_vec.c				\
+			colour_phong.c				\
+			input.c						\
+			scalar_multiply.c			\
+			cross_product.c				\
+			length_vec.c				\
+			set_to.c					\
+			dot_product.c				\
+			load_tab_obj.c				\
+			subtract.c					\
+			exit.c						\
+			main.c						\
+			threads.c					\
+			ft_ahextoi.c				\
+			multiply.c					\
+			to_rad.c					\
+			ft_convert_base.c			\
+			normalize.c					\
+			turn_orthogonal.c			\
+			ft_fill_img.c				\
+			obj_cyl_cone.c				\
+			validate_map.c				\
+			ft_get_pixel_from_image.c	\
+			obj_sphere_plane.c			\
+
 
 HEADER = $(NAME).h
 

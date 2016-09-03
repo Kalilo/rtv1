@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-t_vect	*saturate_vec(t_vect *n)
+t_vect	saturate_vec(t_vect *n)
 {
-	return (clamp_vec(n, 0.0, 1.0));
+	return (*clamp_vec(n, 0.0, 1.0));
 }

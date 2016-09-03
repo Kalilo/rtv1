@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rtv1.h"
+
 void	ft_fill_img(t_img *i, unsigned int color)
 {
 	int		x;

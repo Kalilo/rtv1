@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-t_vect	*cross_product(t_vect *v1, t_vect *v1)
+t_vect	*cross_product(t_vect *v1, t_vect *v2)
 {
 	float	old_x;
 	float	old_y;
