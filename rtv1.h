@@ -6,7 +6,7 @@
 /*   By: khansman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/16 15:12:40 by khansman          #+#    #+#             */
-/*   Updated: 2016/07/16 15:13:23 by khansman         ###   ########.fr       */
+/*   Updated: 2016/09/03 10:58:27 by aburroug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@
 # define ADD_LINE21 remove_tabs(&(var.line))
 # define ADD_IF01 var.k = -1, !var.size[0] || !var.size[1]
 # define ADD_IF02 ADD_LINE21 && (ADD_LINE19 ADD_LINE20)
-# define ADD_IF03 x = -1, ++y < env->img->height
+# define ADD_IF03 env->t.x = -1, ++env->t.y < env->img->height
+# define ADD_IF04 b = (WIN_WIDTH / 4) - 1
+# define ADD_IF05 c = ((WIN_WIDTH / 4) * 2) - 1
+# define ADD_IF06 d = ((WIN_WIDTH / 4) * 3) - 1
 # define FREE00 ft_freetab(var.tab);free(var.line)
 # define SET_VAR t_tab_var var;var.line = NULL
 
@@ -108,17 +111,6 @@
 # define MLX_KEY_L 37
 # define MLX_KEY_K 40
 
-# define MLX_KEY_0 29
-# define MLX_KEY_1 18
-# define MLX_KEY_2 19
-# define MLX_KEY_3 20
-# define MLX_KEY_4 21
-# define MLX_KEY_5 23
-# define MLX_KEY_6 22
-# define MLX_KEY_7 26
-# define MLX_KEY_8 28
-# define MLX_KEY_9 29
-
 # define KEY_PRESS 2
 # define KEY_RELEASE 3
 # define BUTTON_PRESS 4
@@ -143,6 +135,18 @@ typedef struct	s_vect
 	double		y;
 	double		z;
 }				t_vect;
+
+typedef struct 	s_tvar
+{
+	int			x;
+	int			x1;
+	int			x2;
+	int			x3;
+	int			y;
+	int			b;
+	int			c;
+	int			d;
+}				t_tvar;
 
 typedef struct	s_img
 {
@@ -207,7 +211,7 @@ typedef struct	s_env
 	float		r;
 	float		v;
 	float		b;
-	int			clear_img;
+	t_tvar		t;
 }				t_env;
 
 typedef struct	s_hit_equa
@@ -270,9 +274,13 @@ typedef struct	s_var_tri
 int				ft_key_input(int key, t_env *e);
 int				ft_draw(t_env *e);
 
-void			raytracer(t_env *e);
+void			*raytracer(void *e);
 void			create_ray(t_env *e, t_vect *ray, int x, int y);
 int				cast_ray(t_env *e, t_vect *ray, int x, int y);
+void			*thread1(void *e);
+void			*thread2(void *e);
+void			*thread3(void *e);
+void			*thread4(void *e);
 int				colour_phong(t_env *e, t_obj *obj, float dist, int a);
 int				try_collision(t_env *e, t_vect *r_pos, int id, t_spot *spot);
 void			init_spots(t_env *e, t_vect *r_pos, t_vect *r_dir);
@@ -287,33 +295,31 @@ int				hit_triangle(t_obj *s, t_vect *r_pos, t_vect *r_dir, float *t);
 int				hit_cone(t_obj *c, t_vect *r_pos, t_vect *r_dir, float *t);
 int				ft_ahextocolour(char *ahex);
 
-double	dot_product(t_vect *v1, t_vect *v2);
-t_vect	*clamp_vec(t_vect *v1, double min, double max);
-double	clamp(double n, double min2, double max2);
-t_vect	*turn_orthogonal(t_vect *v1);
-t_vect	*cross_product(t_vect *v1, t_vect *v2);
-t_vect	*scalar_multiply(t_vect *a, double amount);
-t_vect	*normalize(t_vect *a);
-t_vect	*multiply(t_vect *v1, t_vect *v2);
-t_vect	*add(t_vect *v1, t_vect *v2);
-t_vect	*subtract(t_vect *v1, t_vect *v2);
-t_vect	*set_to(t_vect *v1, t_vect *v2);
-t_vect	*clamp_vec(t_vect *v1, double min, double max);
-double	clamp(double n, double min2, double max2);
-t_vect	*turn_orthogonal(t_vect *v1);
-t_vect	*cross_product(t_vect *v1, t_vect *v2);
-double	length_vec(t_vect *z);
-t_vect	*scalar_multiply(t_vect *a, double amount);
-void	ft_fill_img(t_img *i, unsigned int color);
-t_uint	ft_get_pixel_from_image(t_img *i, int x, int y);
-void	ft_pixel_put_to_image(t_img *i, int x, int y, unsigned int color);
-t_img	*ft_load_img(void *mlx, char *src);
-t_img	*ft_new_img(void *mlx, int width, int height);
-size_t	ft_tablen(void **tab);
-double		ft_atof(const char *str);
+float			dot_product(t_vect *v1, t_vect *v2);
+t_vect			*clamp_vec(t_vect *v1, double min, double max);
+float			clamp(double n, double min2, double max2);
+t_vect			*turn_orthogonal(t_vect *v1);
+t_vect			*cross_product(t_vect *v1, t_vect *v2);
+t_vect			*scalar_multiply(t_vect *a, double amount);
+t_vect			*normalize(t_vect *a);
+t_vect			*multiply(t_vect *v1, t_vect *v2);
+t_vect			*add(t_vect *v1, t_vect *v2);
+t_vect			*subtract(t_vect *v1, t_vect *v2);
+t_vect			*set_to(t_vect *v1, t_vect *v2);
+t_vect			length_vec(t_vect *z);
+float			to_rad(float r);
+float			saturate(float n);
+t_vect			saturate_vec(t_vect *n);
+void			ft_fill_img(t_img *i, unsigned int color);
+t_uint			ft_get_pixel_from_image(t_img *i, int x, int y);
+void			ft_pixel_put_to_image(t_img *i, int x, int y, unsigned int color);
+t_img			*ft_load_img(void *mlx, char *src);
+t_img			*ft_new_img(void *mlx, int width, int height);
+size_t			ft_tablen(void **tab);
+double			ft_atof(const char *str);
 char			*ft_convert_base(char *nbr, char *base_from, char *base_to);
-size_t	ft_len_untill(const char *str, char c);
-char	*ft_strrev(char *s);
+size_t			ft_len_until(const char *str, char c);
+char			*ft_strrev(char *s);
 
 void			ft_exit(int error);
 int				ft_exit_prog(t_env *env);
