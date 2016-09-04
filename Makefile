@@ -3,7 +3,7 @@ CC = gcc
 
 NVCC = /Developer/NVIDIA/CUDA-5.5/bin/nvcc
 
-NAME = rtv1
+NAME = rt
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -30,8 +30,9 @@ SRCS = main.c				\
 	   v3d_calc3.c			\
 	   ft_image.c			\
 	   ft_convert_base.c	\
+	   threads.c			\
 
-HEADER = $(NAME).h
+HEADER = rtv1.h
 
 OBJS = $(addprefix $(OBJDIR),$(subst .c,.o,$(SRCS)))
 

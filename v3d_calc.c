@@ -12,17 +12,17 @@
 
 #include "rtv1.h"
 
-double	dot_product(t_vect *v1, t_vect *v2)
+float	dot_product(t_vect *v1, t_vect *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }
 
-double	to_rad(double r)
+float	to_rad(float r)
 {
 	return (r * M_PI / 180.0);
 }
 
-double	saturate(double n)
+float	saturate(float n)
 {
 	return (clamp(n, 0.0, 1.0));
 }
@@ -32,7 +32,7 @@ t_vect	*saturate_vec(t_vect *n)
 	return (clamp_vec(n, 0.0, 1.0));
 }
 
-double	length_vec(t_vect *z)
+float	length_vec(t_vect *z)
 {
 	return (sqrt(z->x * z->x + z->y * z->y + z->z * z->z));
 }

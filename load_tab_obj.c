@@ -105,12 +105,12 @@ void	init_tab_obj(t_env *env, char *src)
 	if ((var.fd = open(src, O_RDONLY)) <= 0)
 		ft_exit(4);
 	ADD_LINE18;
-	var.size[0] = ft_atoi(var.tab[0]);
-	var.size[1] = ft_atoi(var.tab[1]);
+	env->t.s1 = ft_atoi(var.tab[0]);
+	env->t.s2 = ft_atoi(var.tab[1]);
 	if (ADD_IF01)
 		ft_exit(5);
-	env->tab_obj = ft_memalloc(sizeof(t_obj*) * (var.size[0] + 1));
-	env->spots = ft_memalloc(sizeof(t_spot) * (var.size[1] + 1));
+	env->tab_obj = ft_memalloc(sizeof(t_obj*) * (env->t.s1 + 1));
+	env->spots = ft_memalloc(sizeof(t_spot) * (env->t.s2 + 1));
 	while (get_next_line(var.fd, &var.line) > 0)
 	{
 		if (ADD_IF02)
@@ -122,7 +122,7 @@ void	init_tab_obj(t_env *env, char *src)
 			else if (!ft_strcmp(var.tab[0], "Camera"))
 				change_camera(env, var.tab);
 		}
-		if (var.k > var.size[0])
+		if (var.k > env->t.s1)
 			ft_exit(6);
 		FREE00;
 	}

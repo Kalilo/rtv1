@@ -53,20 +53,20 @@ size_t		ft_tablen(void **tab)
 	return (len);
 }
 
-double		ft_atof(const char *str)
+float		ft_atof(const char *str)
 {
-	double	result;
+	float	result;
 	int		i;
 
-	result = (double)ft_atoi(str);
+	result = (float)ft_atoi(str);
 	i = ft_len_untill(str, '.');
 	if (i && str[i])
 	{
 		if (result >= 0 && str[0] != '-')
-			result += ((double)ft_atoi(str + i + 1))
+			result += ((float)ft_atoi(str + i + 1))
 				/ ((ft_strlen(str + i + 1) * 10));
 		else
-			result -= ((double)ft_atoi(str + i + 1))
+			result -= ((float)ft_atoi(str + i + 1))
 				/ ((ft_strlen(str + i + 1) * 10));
 	}
 	return (result);

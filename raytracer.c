@@ -89,18 +89,25 @@ int		cast_ray(t_env *env, t_vect *ray, int x, int y)
 
 void	raytracer(t_env *env)
 {
-	int		x;
-	int		y;
-	t_vect	ray;
+	pthread_t	t1;
+	pthread_t	t2;
+	pthread_t	t3;
+	pthread_t	t4;
 
-	set_to(&(env->screen->pos), &(env->dir));
-	add(&(env->screen->pos), &(env->pos));
-	set_to(&(env->screen->dir), &(env->dir));
-	y = -1;
-	while (ADD_IF03)
-		while (++x < env->img->width)
-		{
-			create_ray(env, &ray, x, y);
-			cast_ray(env, &ray, x, y);
-		}
+	if (pthread_create(&t1, NULL, thread1, (void *)env))
+		exit(0);
+	if (pthread_create(&t2, NULL, thread2, (void *)env))
+		exit(0);
+	if (pthread_create(&t3, NULL, thread3, (void *)env))
+		exit(0);
+	if (pthread_create(&t4, NULL, thread4, (void *)env))
+		exit(0);
+	if (pthread_join(t1, NULL))
+		exit(0);
+	if (pthread_join(t2, NULL))
+		exit(0);
+	if (pthread_join(t3, NULL))
+		exit(0);
+	if (pthread_join(t4, NULL))
+		exit(0);
 }

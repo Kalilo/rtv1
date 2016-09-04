@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-t_vect	*clamp_vec(t_vect *v1, double min, double max)
+t_vect	*clamp_vec(t_vect *v1, float min, float max)
 {
 	v1->x = clamp(v1->x, min, max);
 	v1->y = clamp(v1->y, min, max);
@@ -20,7 +20,7 @@ t_vect	*clamp_vec(t_vect *v1, double min, double max)
 	return (v1);
 }
 
-double	clamp(double n, double min2, double max2)
+float	clamp(float n, float min2, float max2)
 {
 	if (n > max2)
 	{
@@ -40,8 +40,8 @@ double	clamp(double n, double min2, double max2)
 
 t_vect	*turn_orthogonal(t_vect *v1)
 {
-	double inverse;
-	double old_x;
+	float inverse;
+	float old_x;
 
 	inverse = 1.0 / sqrt(v1->x * v1->x + v1->z * v1->z);
 	old_x = v1->x;
@@ -52,8 +52,8 @@ t_vect	*turn_orthogonal(t_vect *v1)
 
 t_vect	*cross_product(t_vect *v1, t_vect *v2)
 {
-	double	old_x;
-	double	old_y;
+	float	old_x;
+	float	old_y;
 
 	old_x = v1->x;
 	old_y = v1->y;
@@ -63,7 +63,7 @@ t_vect	*cross_product(t_vect *v1, t_vect *v2)
 	return (v1);
 }
 
-t_vect	*scalar_multiply(t_vect *a, double amount)
+t_vect	*scalar_multiply(t_vect *a, float amount)
 {
 	a->x *= amount;
 	a->y *= amount;

@@ -25,6 +25,8 @@
 # include <math.h>
 # include <fcntl.h>
 
+# include <pthread.h>
+
 /*
 **		Old Includes:
 **			include "ft_mlx.h"
@@ -41,15 +43,15 @@
 # define WIN_NAME "rtv1"
 
 # define WIN_RATIO ((float)WIN_WIDTH / WIN_HEIGHT)
-# define FOV 45.0
-# define FOV_X_DEG 45.0
+# define FOV 45.00
+# define FOV_X_DEG 45.00
 # define FOV_Y_DEG (FOV * WIN_RATIO)
-# define FOV_X (FOV_X_DEG * M_PI / 180.0)
-# define FOV_Y (FOV_Y_DEG * M_PI / 180.0)
+# define FOV_X (FOV_X_DEG * M_PI / 180.00)
+# define FOV_Y (FOV_Y_DEG * M_PI / 180.00)
 # define ANGLE_X FOV_X / (WIN_WIDTH / 2)
 # define ANGLE_Y FOV_Y / (WIN_HEIGHT / 2)
 # define MAX_DIST 500.0
-# define ZOOM_FACTOR_CALC tan(M_PI * 0.5 * 45.0 / 180)
+# define ZOOM_FACTOR_CALC tan(M_PI * 0.50 * 45.00 / 180)
 # define ZOOM_FACTOR 0.39269908
 
 # define ADD_LINE1 add(&(env->pos), &(env->dir)),
@@ -77,6 +79,7 @@
 # define ADD_IF01 var.k = -1, !var.size[0] || !var.size[1]
 # define ADD_IF02 ADD_LINE21 && (ADD_LINE19 ADD_LINE20)
 # define ADD_IF03 x = -1, ++y < env->img->height
+# define ADD_IF07 ++y < env->img->height
 # define FREE00 ft_free2d(var.tab);free(var.line)
 # define SET_VAR t_tab_var var;var.line = NULL
 
@@ -140,11 +143,25 @@
 
 typedef unsigned int	t_uint;
 
+typedef struct 	s_tvar
+{
+	int			x;
+	int			x1;
+	int			x2;
+	int			x3;
+	int			y;
+	int			b;
+	int			c;
+	int			d;
+	int			s1;
+	int			s2;
+}				t_tvar;
+
 typedef struct		s_vect
 {
-	double			x;
-	double			y;
-	double			z;
+	float			x;
+	float			y;
+	float			z;
 }					t_vect;
 
 typedef struct		s_img
@@ -211,6 +228,7 @@ typedef struct		s_env
 	float			v;
 	float			b;
 	int				clear_img;
+	t_tvar			t;
 }					t_env;
 
 typedef struct		s_hit_equa
@@ -302,23 +320,23 @@ int					ft_ahextocolour(char *ahex);
 **		functions to rewrite:
 */
 
-double				dot_product(t_vect *v1, t_vect *v2);
-t_vect				*clamp_vec(t_vect *v1, double min, double max);
-double				clamp(double n, double min2, double max2);
+float				dot_product(t_vect *v1, t_vect *v2);
+t_vect				*clamp_vec(t_vect *v1, float min, float max);
+float				clamp(float n, float min2, float max2);
 t_vect				*turn_orthogonal(t_vect *v1);
 t_vect				*cross_product(t_vect *v1, t_vect *v2);
-t_vect				*scalar_multiply(t_vect *a, double amount);
+t_vect				*scalar_multiply(t_vect *a, float amount);
 t_vect				*normalize(t_vect *a);
 t_vect				*multiply(t_vect *v1, t_vect *v2);
 t_vect				*add(t_vect *v1, t_vect *v2);
 t_vect				*subtract(t_vect *v1, t_vect *v2);
 t_vect				*set_to(t_vect *v1, t_vect *v2);
-t_vect				*clamp_vec(t_vect *v1, double min, double max);
-double				clamp(double n, double min2, double max2);
+t_vect				*clamp_vec(t_vect *v1, float min, float max);
+float				clamp(float n, float min2, float max2);
 t_vect				*turn_orthogonal(t_vect *v1);
 t_vect				*cross_product(t_vect *v1, t_vect *v2);
-double				length_vec(t_vect *z);
-t_vect				*scalar_multiply(t_vect *a, double amount);
+float				length_vec(t_vect *z);
+t_vect				*scalar_multiply(t_vect *a, float amount);
 void				ft_fill_img(t_img *i, unsigned int color);
 t_uint				ft_get_pixel_from_image(t_img *i, int x, int y);
 void				ft_pixel_put_to_image(t_img *i, int x, int y, \
@@ -326,7 +344,7 @@ void				ft_pixel_put_to_image(t_img *i, int x, int y, \
 t_img				*ft_load_img(void *mlx, char *src);
 t_img				*ft_new_img(void *mlx, int width, int height);
 size_t				ft_tablen(void **tab);
-double				ft_atof(const char *str);
+float				ft_atof(const char *str);
 char				*ft_convert_base(char *nbr, char *base_from, char *base_to);
 size_t				ft_len_untill(const char *str, char c);
 char				*ft_strrev(char *s);
@@ -342,5 +360,10 @@ int					val_tab_count(char **tab);
 int					remove_tabs(char **str);
 void				change_camera(t_env *env, char **tab);
 int					valid_object(char *str);
+
+void				*thread1(void *e);
+void				*thread2(void *e);
+void				*thread3(void *e);
+void				*thread4(void *e);
 
 #endif

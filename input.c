@@ -80,7 +80,7 @@ static int	ft_key_input2(int key, t_env *env)
 int			ft_key_input(int key, t_env *env)
 {
 	ft_key_input2(key, env);
-	create_ray(env, &(env->dir), WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	//create_ray(env, &(env->dir), WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	raytracer(env);
 	ft_draw(env);
 	return (0);
